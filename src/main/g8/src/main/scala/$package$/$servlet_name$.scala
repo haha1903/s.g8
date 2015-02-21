@@ -1,7 +1,6 @@
 package $package$
 
 import org.scalatra._
-import scalate.ScalateSupport
 
 class $servlet_name$ extends $name;format="Camel"$Stack {
 
@@ -9,9 +8,8 @@ class $servlet_name$ extends $name;format="Camel"$Stack {
     <html>
       <body>
         <h1>Hello, world!</h1>
-        Say <a href="hello-scalate">hello to Scalate</a>.
+        <a href="/swagger">Hello Swagger</a>
       </body>
     </html>
   }
-  
 }

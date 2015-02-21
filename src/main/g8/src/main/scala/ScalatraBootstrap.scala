@@ -4,6 +4,9 @@ import javax.servlet.ServletContext
 
 class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext) {
+  	implicit val swagger = ResourceSwagger
+    context.mount(new ResourcesApp, "/api-docs")
+    context.mount(new $servlet_name$Swagger, "/user/*")
     context.mount(new $servlet_name$, "/*")
   }
 }

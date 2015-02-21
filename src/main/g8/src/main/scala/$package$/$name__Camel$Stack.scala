@@ -1,37 +1,54 @@
 package $package$
 
 import org.scalatra._
-import scalate.ScalateSupport
-import org.fusesource.scalate.{ TemplateEngine, Binding }
-import org.fusesource.scalate.layout.DefaultLayoutStrategy
+import org.scalatra.swagger._
+import org.scalatra.swagger.reflect.Reflector
+import org.scalatra.swagger.runtime.annotations.ApiModel
 import javax.servlet.http.HttpServletRequest
-import collection.mutable
+import org.json4s.DefaultFormats
+import org.scalatra.json.JacksonJsonSupport
 
-trait $name;format="Camel"$Stack extends ScalatraServlet with ScalateSupport {
+trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport {
+  protected def applicationDescription = "$name;format="Camel"$"
+  implicit val swagger = ResourceSwagger
+  implicit val jsonFormats = DefaultFormats
 
-  /* wire up the precompiled templates */
-  override protected def defaultTemplatePath: List[String] = List("/WEB-INF/templates/views")
-  override protected def createTemplateEngine(config: ConfigT) = {
-    val engine = super.createTemplateEngine(config)
-    engine.layoutStrategy = new DefaultLayoutStrategy(engine,
-      TemplateEngine.templateTypes.map("/WEB-INF/templates/layouts/default." + _): _*)
-    engine.packagePrefix = "templates"
-    engine
+  before() {
+    contentType = formats("json")
   }
-  /* end wiring up the precompiled templates */
-  
-  override protected def templateAttributes(implicit request: HttpServletRequest): mutable.Map[String, Any] = {
-    super.templateAttributes ++ mutable.Map.empty // Add extra attributes here, they need bindings in the build file
+
+  def api[R: Manifest, P: Manifest](name: String) = operation(apiOperation[R](name)
+    summary name
+    parameter (bodyParam[P]))
+
+  // add ApiModel parent properties to Model
+  override protected def registerModel(model: Model) = {
+    val mergeModel = try {
+      val clz = Class.forName(model.qualifiedName.get)
+      val klass = Reflector.scalaTypeOf(clz)
+      val apiModel = Option(klass.erasure.getAnnotation(classOf[ApiModel]))
+      apiModel match {
+        case Some(am) =>
+          val parent = am.parent()
+          if (parent != classOf[Void]) {
+            val pModel = Swagger.modelToSwagger(Reflector.scalaTypeOf(parent)).get
+            val props = model.properties
+            val pProps = pModel.properties.filterNot(p => props.map(_._1).contains(p._1))
+            model.copy(properties = props ::: pProps)
+          } else {
+            model
+          }
+        case None => model
+      }
+    } catch {
+      case e: Exception => model
+    }
+    super.registerModel(mergeModel)
   }
-  
 
   notFound {
     // remove content type in case it was set through an action
     contentType = null
-    // Try to render a ScalateTemplate if no route matched
-    findTemplate(requestPath) map { path =>
-      contentType = "text/html"
-      layoutTemplate(path)
-    } orElse serveStaticResource() getOrElse resourceNotFound()
+    serveStaticResource() getOrElse resourceNotFound()
   }
 }
