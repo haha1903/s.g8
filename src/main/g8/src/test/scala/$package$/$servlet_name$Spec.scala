@@ -1,3 +1,4 @@
+/*
 package $package$
 
 import org.scalatra.test.specs2._
@@ -8,9 +9,10 @@ class $servlet_name$Spec extends ScalatraSpec { def is =
     "should return status 200"                  ! root200^
                                                 end
 
-  addServlet(classOf[$servlet_name$], "/*")
+  addServlet(classOf[$servlet_name$], "/")
 
   def root200 = get("/") {
     status must_== 200
   }
 }
+*/
