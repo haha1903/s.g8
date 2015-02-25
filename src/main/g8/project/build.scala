@@ -11,6 +11,7 @@ object $name;format="Camel"$Build extends Build {
   val Version = "$version$"
   val ScalaVersion = "$scala_version$"
   val ScalatraVersion = "$scalatra_version$"
+  val SlickVersion = "$slick_version$"
 
   lazy val project = Project (
     "$name;format="norm"$",
@@ -40,6 +41,8 @@ object $name;format="Camel"$Build extends Build {
         "org.scalatra" %% "scalatra-swagger" % ScalatraVersion,
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,
         "org.json4s"   %% "json4s-jackson" % "3.2.10",
+        "com.typesafe.slick" %% "slick" % SlickVersion,
+        "com.typesafe.slick" %% "slick-codegen" % SlickVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "8.1.8.v20121106" % "container;compile;test",
