@@ -42,6 +42,7 @@ object $name;format="Camel"$Build extends Build {
         "org.scalatra" %% "scalatra-json" % ScalatraVersion,
         "org.json4s"   %% "json4s-jackson" % "3.2.10",
         "com.typesafe.slick" %% "slick" % SlickVersion,
+        "mysql" % "mysql-connector-java" % "5.1.34",
         "com.typesafe.slick" %% "slick-codegen" % SlickVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
