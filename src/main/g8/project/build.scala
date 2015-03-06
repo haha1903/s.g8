@@ -2,6 +2,7 @@ import sbt._
 import Keys._
 import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
+import sbtassembly._
 import sbtassembly.AssemblyKeys._
 import sbtassembly.AssemblyPlugin._
 
