@@ -36,6 +36,11 @@ object $name;format="Camel"$Build extends Build {
             to
           }
       },
+      mainClass in assembly := Some("JettyLauncher"),
+      assemblyMergeStrategy in assembly := {
+        case PathList("META-INF", _*) => MergeStrategy.discard
+        case x => MergeStrategy.first
+      },
       libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-swagger" % ScalatraVersion,
