@@ -1,12 +1,11 @@
 package $package$
 
+import org.json4s.{DefaultFormats, Formats}
 import org.scalatra._
+import org.scalatra.json.JacksonJsonSupport
 import org.scalatra.swagger._
 import org.scalatra.swagger.reflect.Reflector
 import org.scalatra.swagger.runtime.annotations.ApiModel
-import javax.servlet.http.HttpServletRequest
-import org.json4s.DefaultFormats
-import org.scalatra.json.JacksonJsonSupport
 
 trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport {
   protected def applicationDescription = "$name;format="Camel"$"
