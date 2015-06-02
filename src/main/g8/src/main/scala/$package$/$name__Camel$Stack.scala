@@ -11,7 +11,7 @@ import org.scalatra.json.JacksonJsonSupport
 trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport {
   protected def applicationDescription = "$name;format="Camel"$"
   implicit val swagger = ResourceSwagger
-  implicit val jsonFormats = DefaultFormats
+  implicit protected def jsonFormats: Formats = DefaultFormats
 
   before() {
     contentType = formats("json")
