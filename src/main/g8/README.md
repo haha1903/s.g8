@@ -5,8 +5,8 @@
 ```sh
 \$ cd $name;format="snake"$
 \$ ./sbt
-> container:start
+> jetty:start
 > browse
 ```
 
-If `browse` doesn't launch your browser, manually open [http://localhost:8080/](http://localhost:8080/) in your browser.
+If `browse` doesn't launch your browser, manually open [http://localhost:9090/](http://localhost:9090/) in your browser.
