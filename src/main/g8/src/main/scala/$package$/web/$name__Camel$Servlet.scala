@@ -1,4 +1,4 @@
-package $package$
+package $package$.web
 
 import org.scalatra._
 

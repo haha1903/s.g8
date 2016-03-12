@@ -1,4 +1,5 @@
-import $package$._
+import $package$.web._
+import $package$.support.{ResourceSwagger, ResourcesApp}
 import org.scalatra._
 import javax.servlet.ServletContext
 

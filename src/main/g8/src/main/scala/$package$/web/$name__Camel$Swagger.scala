@@ -1,10 +1,9 @@
-package $package$
+package $package$.web
 
 import org.scalatra._
-import org.scalatra.swagger.annotations._
 
-case class User(@ApiModelProperty(description = "User Id") id: Long,
-                @ApiModelProperty(description = "User Name") name: String)
+case class User(@p(description = "User Id") id: Long,
+                @p(description = "User Name") name: String)
 
 class $name;format="Camel"$Swagger extends $name;format="Camel"$Stack {
   post("/user", api[List[User], Unit]("List users")) {

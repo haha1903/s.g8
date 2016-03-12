@@ -1,24 +1,42 @@
-package $package$
+package $package$.support
 
+import grizzled.slf4j.Logging
+import org.joda.time.DateTime
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra._
 import org.scalatra.json.JacksonJsonSupport
 import org.scalatra.swagger._
 import org.scalatra.swagger.reflect.Reflector
 import org.scalatra.swagger.runtime.annotations.ApiModel
+import slick.jdbc.{PositionedParameters, SetParameter}
 
-trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport {
-  protected def applicationDescription = "$name;format="Camel"$"
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+
+trait HelperStack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport with DatabaseSupport with Logging {
+  protected def applicationDescription = "Helper"
+
   implicit val swagger = ResourceSwagger
+
   implicit protected def jsonFormats: Formats = DefaultFormats
+
+  implicit object SetDateTime extends SetParameter[DateTime] {
+    def apply(v: DateTime, pp: PositionedParameters) {
+      pp.setDate(new java.sql.Date(v.getMillis))
+    }
+  }
 
   before() {
     contentType = formats("json")
   }
 
-  def api[R: Manifest, P: Manifest](name: String) = operation(apiOperation[R](name)
-    summary name
-    parameter (bodyParam[P]))
+  def api[R: Manifest, P](name: String)(implicit p: Manifest[P]) = {
+    val apiOper = apiOperation[R](name).summary(name)
+    if (p != manifest[Unit])
+      operation(apiOper.parameter(bodyParam[P]))
+    else
+      operation(apiOper)
+  }
 
   // add ApiModel parent properties to Model
   override protected def registerModel(model: Model) = {

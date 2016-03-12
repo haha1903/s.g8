@@ -1,0 +1,70 @@
+@(date: String, users: List)
+
+@date
+@for(user <- users) {
+    <li>@user.name</li>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">@date:统计信息</div>
+    <table border="1" cellpadding="2" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>线上支付</th>
+                <th>POS支付</th>
+                <th>线上支付渗透率</th>
+                <th>未支付</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>数量</td>
+                <td>@all.payCount</td>
+                <td>@all.posCount</td>
+                <td>@(if(all.posCount > 0) scale(all.payCount.toDouble / all.posCount) else 0)</td>
+                <td>@all.failCount</td>
+            </tr>
+            <tr>
+                <td>金额</td>
+                <td>@all.payTotal</td>
+                <td>@all.posTotal</td>
+                <td>@(if(all.posTotal > 0) scale(all.payTotal / all.posTotal) else 0)</td>
+                <td>@all.failTotal</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="panel-heading">@date:详细信息</div>
+    <table border="1" cellpadding="2" cellspacing="0" height="100%" width="100%">
+        <thead>
+            <tr>
+                <th>门店编号</th>
+                <th>门店名称</th>
+                <th>线上交易笔数</th>
+                <th>线上交易金额</th>
+                <th>全部交易笔数</th>
+                <th>全部交易金额</th>
+                <th>线上交易笔数渗透率</th>
+                <th>线上交易金额渗透率</th>
+                <th>未支付笔数</th>
+                <th>未支付金额</th>
+            </tr>
+        </thead>
+        <tbody>
+        @for(detail <- all.details) {
+            <tr>
+                <td>@detail.org</td>
+                <td>@detail.title</td>
+                <td>@detail.payCount</td>
+                <td>@detail.payTotal</td>
+                <td>@detail.posCount</td>
+                <td>@detail.posTotal</td>
+                <td>@(if(detail.payCount > 0) scale(detail.payCount.toDouble / detail.posCount) else 0)</td>
+                <td>@(if(detail.payTotal > 0) scale(detail.payTotal / detail.posTotal) else 0)</td>
+                <td>@detail.failCount</td>
+                <td>@detail.failTotal</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
