@@ -21,7 +21,7 @@ trait SchedulerSupport extends Logging {
   sched.start()
 
   def startJob(cron: String, f: => Unit) = {
-    logger.info(s"start job, cron: $cron")
+    logger.info(s"start job, cron: \$cron")
     val job = JobBuilder.newJob(classOf[InnerJob])
       .usingJobData(new JobDataMap(Map("instance" -> new JobWrapper {
         override def run() = f

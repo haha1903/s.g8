@@ -13,8 +13,8 @@ import slick.jdbc.{PositionedParameters, SetParameter}
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-trait HelperStack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport with DatabaseSupport with Logging {
-  protected def applicationDescription = "Helper"
+trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport with DatabaseSupport with Logging {
+  protected def applicationDescription = "$name;format="Camel"$"
 
   implicit val swagger = ResourceSwagger
 

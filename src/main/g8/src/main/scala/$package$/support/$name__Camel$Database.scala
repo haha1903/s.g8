@@ -4,7 +4,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
 trait $name;format="Camel"$Database extends DatabaseSupport {
-  val payDb = Database.forConfig("$name;format="lower"$")
+  val $name;format="lower"$Db = Database.forConfig("$name;format="lower"$")
 
-  def payRun[R](a: DBIOAction[R, NoStream, Nothing]): R = Await.result(payDb.run(a), Duration.Inf)
+  def $name;format="lower"$Run[R](a: DBIOAction[R, NoStream, Nothing]): R = Await.result($name;format="lower"$Db.run(a), Duration.Inf)
 }

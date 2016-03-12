@@ -1,6 +1,6 @@
 package $package$.utils
 
-import com.mb.support.{ConfigSupport, DatabaseSupport}
+import $package$.support.{ConfigSupport, DatabaseSupport}
 import slick.driver.MySQLDriver
 
 import scala.concurrent.Await
@@ -32,14 +32,14 @@ object CodeGen extends App with DatabaseSupport with ConfigSupport {
 
       override def hlistEnabled = false
 
-      override def compoundValue(values: Seq[String]): String = if (values.size == 1) values.head else s"""(${values.mkString(", ")})"""
+      override def compoundValue(values: Seq[String]): String = if (values.size == 1) values.head else s"""(\${values.mkString(", ")})"""
 
       override def PlainSqlMapper = new PlainSqlMapper {
         override def enabled = false
       }
 
       override def TableValue = new TableValue {
-        override def code = s"lazy val $name = TableQuery[${TableClass.name}]"
+        override def code = s"lazy val \$name = TableQuery[\${TableClass.name}]"
       }
 
       override def TableClass = new TableClass {
@@ -47,7 +47,7 @@ object CodeGen extends App with DatabaseSupport with ConfigSupport {
       }
 
       override def Column = new Column(_) {
-        override def code = s"""val $name = column[$actualType]("${model.name}"${options.map(", " + _).mkString("")})"""
+        override def code = s"""val \$name = column[\$actualType]("\${model.name}"\${options.map(", " + _).mkString("")})"""
       }
 
       override def code: Seq[String] = definitions.flatMap(_.getEnabled).filterNot(d => d.isInstanceOf[EntityType]).map(_.docWithCode)
@@ -59,17 +59,17 @@ object CodeGen extends App with DatabaseSupport with ConfigSupport {
 
     override def packageCode(profile: String, pkg: String, container: String, parentType: Option[String]): String = {
       s"""
-package ${pkg}
+package \${pkg}
 
-${entities}
+\${entities}
 
-object ${container} extends {
-  val profile = $profile
-} with ${container}
-trait ${container}${parentType.map(t => s" extends $t").getOrElse("")} {
+object \${container} extends {
+  val profile = \$profile
+} with \${container}
+trait \${container}\${parentType.map(t => s" extends \$t").getOrElse("")} {
   val profile: slick.driver.JdbcProfile
   import profile.api._
-  ${indent(code)}
+  \${indent(code)}
 }
       """.trim()
     }

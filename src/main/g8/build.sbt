@@ -41,7 +41,7 @@ containerPort := 9090
 javaOptions in Jetty ++= Seq(
   "-Xdebug",
   "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
-
+)
 
 lazy val slick = TaskKey[Seq[File]]("slick")
 lazy val slickCodeGenTask = (sourceDirectory, fullClasspath in Compile, runner in Compile, streams) map { (dir, cp, r, s) =>

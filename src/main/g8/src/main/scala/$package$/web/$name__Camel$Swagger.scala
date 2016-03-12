@@ -1,6 +1,7 @@
 package $package$.web
 
 import org.scalatra._
+import $package$.support._
 
 case class User(@p(description = "User Id") id: Long,
                 @p(description = "User Name") name: String)

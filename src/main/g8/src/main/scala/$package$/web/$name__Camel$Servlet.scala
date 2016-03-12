@@ -1,6 +1,7 @@
 package $package$.web
 
 import org.scalatra._
+import $package$.support._
 
 class $name;format="Camel"$Servlet extends $name;format="Camel"$Stack {
 
