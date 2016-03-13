@@ -10,8 +10,7 @@ import org.scalatra.swagger.reflect.Reflector
 import org.scalatra.swagger.runtime.annotations.ApiModel
 import slick.jdbc.{PositionedParameters, SetParameter}
 
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
+case class Message(message: String, success: Boolean)
 
 trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport with SwaggerSupport with DatabaseSupport with Logging {
   protected def applicationDescription = "$name;format="Camel"$"
@@ -37,6 +36,12 @@ trait $name;format="Camel"$Stack extends ScalatraServlet with JacksonJsonSupport
     else
       operation(apiOper)
   }
+
+  def success(msg: String) = ActionResult(ResponseStatus(200), Message(msg, true), Map[String, String]())
+
+  def failure(msg: String) = ActionResult(ResponseStatus(500), Message(msg, false), Map[String, String]())
+
+  def result(r: Boolean) = if (r) success("success") else failure("failure")
 
   // add ApiModel parent properties to Model
   override protected def registerModel(model: Model) = {

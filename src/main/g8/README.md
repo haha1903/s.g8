@@ -6,7 +6,18 @@
 \$ cd $name;format="snake"$
 \$ ./sbt
 > jetty:start
-> browse
 ```
 
-If `browse` doesn't launch your browser, manually open [http://localhost:9090/](http://localhost:9090/) in your browser.
+manually open [http://localhost:9090/](http://localhost:9090/) in your browser.
+
+## Slick Hello World ##
+```sh
+mysql -uroot -proot < src/main/resources/init.sql
+\$ ./sbt
+> slick
+> exit
+cp -R src/main/slick src/main/scala
+```
+
+edit $name;format="Camel"Swagger.scala
+
