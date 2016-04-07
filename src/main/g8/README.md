@@ -19,5 +19,4 @@ mysql -uroot -proot < src/main/resources/init.sql
 cp -R src/main/slick src/main/scala
 ```
 
-edit $name;format="Camel"Swagger.scala
-
+edit $name;format="Camel"$Swagger.scala

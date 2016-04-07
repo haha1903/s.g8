@@ -9,7 +9,8 @@ scalaVersion := "$scala_version$"
 scalacOptions ++= Seq("-deprecation", "-feature")
 
 resolvers ++= Seq("softprops-maven" at "http://dl.bintray.com/content/softprops/maven",
-  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/maven-releases/")
+  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/maven-releases/",
+  "spray repo" at "http://repo.spray.io")
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
@@ -23,8 +24,11 @@ libraryDependencies ++= Seq(
   "me.lessis" %% "courier" % "0.1.3",
   "org.quartz-scheduler" % "quartz" % "2.2.2",
   "commons-net" % "commons-net" % "3.4",
+  "io.spray" %% "spray-client" % "1.3.3",
+  "com.typesafe.akka" %% "akka-actor" % "2.3.14",
   "com.google.guava" % "guava" % "19.0",
-  "mysql" % "mysql-connector-java" % "5.1.34",
+  "com.zaxxer" % "HikariCP-java6" % "2.3.13",
+  "mysql" % "mysql-connector-java" % "5.1.38",
   "joda-time" % "joda-time" % "2.9.2",
   "com.typesafe.slick" %% "slick-codegen" % "$slick_version$",
   "org.scalatra" %% "scalatra-specs2" % "$scalatra_version$" % "test",
@@ -33,10 +37,11 @@ libraryDependencies ++= Seq(
 )
 
 enablePlugins(JettyPlugin)
+containerPort := 9090
 
 enablePlugins(SbtTwirl)
 
-containerPort := 9090
+giter8.ScaffoldPlugin.scaffoldSettings
 
 javaOptions in Jetty ++= Seq(
   "-Xdebug",

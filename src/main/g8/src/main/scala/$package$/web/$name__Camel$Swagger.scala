@@ -10,9 +10,7 @@ import $package$.data.Tables._
 case class User(@p(description = "User Id") id: Long,
                 @p(description = "User Name") name: String)
 
-class $name;format="Camel"$Swagger extends $name;format="Camel"$Stack
-//  with $name;format="Camel"$Database
-{
+class $name;format="Camel"$Swagger extends $name;format="Camel"$Stack with $name;format="Camel"$Database {
   post("/user", api[List[User], Unit]("List users")) {
     List(
       User(1, "haha"),
